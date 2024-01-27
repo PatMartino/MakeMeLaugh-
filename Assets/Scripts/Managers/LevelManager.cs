@@ -56,7 +56,7 @@ namespace Managers
                 WaitTearDropByLevelCount();
                 _placeTear = randomPlace;
                 await Task.Delay((int)_randomTime*1000);  
-                Instantiate(Resources.Load<GameObject>("TearDrop/TearDrop"),randomPlace,Quaternion.identity);
+                Instantiate(Resources.Load<GameObject>("TearDrop/TearDrop"),randomPlace,Quaternion.identity,holder);
                 if (!EditorApplication.isPlaying) { 
                     break;
                 }
@@ -74,7 +74,7 @@ namespace Managers
                 var randomPlace = new Vector3(randomXtoy, randomYtoy, 0);
                 _placeBasicToy = randomPlace;
                 await Task.Delay(7000);  
-                Instantiate(Resources.Load<GameObject>("Toys/BasicToy/BasicToy"),randomPlace,Quaternion.identity);
+                Instantiate(Resources.Load<GameObject>("Toys/BasicToy/BasicToy"),randomPlace,Quaternion.identity,holder);
                 if (!EditorApplication.isPlaying) { 
                     break;
                 }
@@ -92,7 +92,7 @@ namespace Managers
                 var randomPlace = new Vector3(-10f, randomYCar, 0f);
                 _placeCar = randomPlace;
                 await Task.Delay((int)randomTimeCar*1000);  
-                Instantiate(Resources.Load<GameObject>("Vecihles/Car"),randomPlace,Quaternion.identity);
+                Instantiate(Resources.Load<GameObject>("Vecihles/Car"),randomPlace,Quaternion.identity,holder);
                 if (!EditorApplication.isPlaying) { 
                     break;
                 }
@@ -110,7 +110,7 @@ namespace Managers
                 var randomPlace = new Vector3(-10, randomYTrain, 0);
                 _placeTrain = randomPlace;
                 await Task.Delay((int)randomTimeTrain*1000);  
-                Instantiate(Resources.Load<GameObject>("Vecihles/Train"),randomPlace,Quaternion.identity);
+                Instantiate(Resources.Load<GameObject>("Vecihles/Train"),randomPlace,Quaternion.identity,holder);
                 if (!EditorApplication.isPlaying) { 
                     break;
                 }

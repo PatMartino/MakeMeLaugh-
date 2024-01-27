@@ -11,6 +11,23 @@ namespace Controllers
 
         #endregion
 
+        #region Private Fields
+
+        private SpriteRenderer _charSprite;
+        private Animator _animator;
+
+        #endregion
+
+        #region Awake
+
+        private void Awake()
+        {
+            _charSprite = GetComponentInChildren<SpriteRenderer>();
+            _animator = GetComponent<Animator>();
+        }
+
+        #endregion
+
         #region Update
 
         private void Update()
@@ -29,18 +46,18 @@ namespace Controllers
 
             if (horizontalInput>0)
             {
-                GetComponent<SpriteRenderer>().flipX = false;
+                _charSprite.flipX = false;
             }
             else if(horizontalInput<0)
             {
-                GetComponent<SpriteRenderer>().flipX = true;
+                _charSprite.flipX = true;
             }
             
             transform.Translate(horizontalInput*speed*Time.deltaTime,verticalInput*speed*Time.deltaTime,0);
-            if (transform.position.y>1.15f)
+            if (transform.position.y>1f)
             {
                 var transformPosition = transform.position;
-                transformPosition.y = 1.15f;
+                transformPosition.y = 1f;
                 transform.position = transformPosition;
             }
             if (transform.position.y < -3.85f)
@@ -60,6 +77,15 @@ namespace Controllers
                 var transformPosition = transform.position;
                 transformPosition.x = 8.35f;
                 transform.position = transformPosition;
+            }
+
+            if (Mathf.Abs(horizontalInput) >= 0.1f || Mathf.Abs(verticalInput) >= 0.1f)
+            {
+                _animator.Play("Move");
+            }
+            else
+            {
+                _animator.Play("Idle");
             }
         }
 

@@ -1,4 +1,5 @@
 using System;
+using Controllers;
 using UnityEngine;
 
 namespace GameObjects
@@ -9,11 +10,14 @@ namespace GameObjects
         {
             if(col.gameObject.CompareTag("Player"))
             {
-                if (!col.transform.GetChild(0).gameObject.activeSelf)
-                {
-                    col.transform.GetChild(0).gameObject.SetActive(true);
-                    Destroy(gameObject);
-                }
+                col.GetComponent<PlayerHand>().HoldObject(this.gameObject);
+
+
+                // if (!col.transform.GetChild(2).gameObject.activeSelf)
+                // {
+                //     col.transform.GetChild(2).gameObject.SetActive(true);
+                //     Destroy(gameObject);
+                // }
             }
         }
     }

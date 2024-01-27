@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: c17ea88b3042c4e43af22b5612417837
+guid: 92246c0e9d51b0440828c68a09c8f5ab
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -48,7 +48,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 24
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -106,43 +106,17 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
-    buildTarget: Android
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
-    buildTarget: iPhone
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: CarToyAnim-Sheet_0
+      name: Shadow_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 320
-        height: 320
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -150,20 +124,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3e4061948ce95a844b0dcd911dc3151b
-      internalID: -2069123558
+      spriteID: 6d79d75b7892da8419f5a75395858a86
+      internalID: -1357109283
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CarToyAnim-Sheet_1
+      name: Shadow_1
       rect:
         serializedVersion: 2
-        x: 320
+        x: 32
         y: 0
-        width: 320
-        height: 320
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -171,29 +145,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a74358feab6c7be4eb5c272dd67bccb8
-      internalID: 1592154675
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: CarToyAnim-Sheet_2
-      rect:
-        serializedVersion: 2
-        x: 640
-        y: 0
-        width: 320
-        height: 320
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: d8b9d81d0382fcd4cbffb1561f0f619e
-      internalID: -197934124
+      spriteID: ddccce204dfd1bc43b512b9208e1effb
+      internalID: -1347090958
       vertices: []
       indices: 
       edges: []
@@ -209,9 +162,8 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      CarToyAnim-Sheet_0: -2069123558
-      CarToyAnim-Sheet_1: 1592154675
-      CarToyAnim-Sheet_2: -197934124
+      Shadow_0: -1357109283
+      Shadow_1: -1347090958
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
