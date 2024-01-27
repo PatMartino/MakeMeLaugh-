@@ -1,3 +1,5 @@
+using System;
+using Signals;
 using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -12,14 +14,27 @@ namespace Controllers
 
         private bool _isHolding;
 
+        private void OnEnable()
+        {
+            SubscribeEvents();
+        }
+
+        private void SubscribeEvents()
+        {
+            CoreGameSignals.Instance.OnChangeSprite += ChangeSprite;
+        }
+
         public void HoldObject(GameObject objectToHold)
         {
-            if (_isHolding) return;
-            objectToHold.transform.SetParent(handTransform);
-            objectToHold.transform.position = handTransform.position;
-            objectToHold.transform.rotation = handTransform.rotation;
-            _isHolding = true;
-            ChangeSprite();
+            
+            if (handTransform.childCount==0)
+            {
+                objectToHold.transform.SetParent(handTransform);
+                objectToHold.transform.position = handTransform.position;
+                objectToHold.transform.rotation = handTransform.rotation;
+            
+                HandSprite();
+            }
         }
 
         // public GameObject GetObjectFromHand()
@@ -30,8 +45,14 @@ namespace Controllers
 
         private void ChangeSprite()
         {
-            if (_isHolding) GetComponentInChildren<SpriteRenderer>().sprite = holdingSprite;
-            else GetComponentInChildren<SpriteRenderer>().sprite = emptySprite;
+            //if (handTransform.childCount>0) GetComponentInChildren<SpriteRenderer>().sprite = holdingSprite;
+            //else
+            GetComponentInChildren<SpriteRenderer>().sprite = emptySprite;
+        }
+
+        private void HandSprite()
+        {
+            GetComponentInChildren<SpriteRenderer>().sprite = holdingSprite;
         }
     }
 }

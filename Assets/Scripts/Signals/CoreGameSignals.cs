@@ -12,5 +12,7 @@ namespace Signals
         public UnityAction<GameStates> OnChangingGameStates = delegate {  };
         public Func<LaughMeterLevels> OnGetLaughMeterLevels = () => LaughMeterLevels.Easy;
         public UnityAction<float> OnIncreaseLaughMeter = delegate {  };
+        public UnityAction OnChangeSprite = delegate {  };
+        public Func<int> OnGetRingCount = () => 0;
     }
 }

@@ -15,7 +15,7 @@ namespace LaughMeter
         
         #region Private Fields
 
-        private float _laughMeter = 70;
+        [SerializeField] private float _laughMeter = 70;
 
         #endregion
 
@@ -75,6 +75,14 @@ namespace LaughMeter
                 >= 25 and < 50 => LaughMeterLevels.Hard,
                 _ => LaughMeterLevels.Impossible
             };
+            if (level == LaughMeterLevels.Easy)
+            {
+                reduction = 4.3f;
+            }
+            else
+            {
+                reduction = 3.9f;
+            }
         }
 
         private LaughMeterLevels OnGetLaughMeterLevel()

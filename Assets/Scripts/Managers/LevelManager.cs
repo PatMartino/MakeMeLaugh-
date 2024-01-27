@@ -13,19 +13,12 @@ namespace Managers
         #region Serialize Fields
 
         [SerializeField] private Transform holder;
-        private Vector3 _placeTear = new Vector3(2f,3f,1);
-        private Vector3 _placeBasicToy = new Vector3(2f,3f,1);
-        private Vector3 _placeCar = new Vector3(2f,3f,1);
-        private Vector3 _placeTrain = new Vector3(2f,3f,1);
 
         #endregion
         
         #region Private Fields
 
-        //private float _randomX;
-        //private float _randomY;
-        //private float _randomMaxTime;
-        //private float _randomMinTime;
+        private int _ringCounter=0;
         private float _randomTime = 5;
 
         #endregion
@@ -38,6 +31,7 @@ namespace Managers
             CreatingBasicToys();
             CreatingCar();
             CreatingTrain();
+            CreatingRings();
         }
 
         #endregion
@@ -48,15 +42,66 @@ namespace Managers
         {
             float randomXTear;
             float randomYTear;
+            float randomTimeTear;
             while (true)
             {
                 randomXTear = Random.Range(-8f, 8f);
                 randomYTear = Random.Range(-4f, 0f);
                 var randomPlace = new Vector3(randomXTear, randomYTear, 0);
                 WaitTearDropByLevelCount();
-                _placeTear = randomPlace;
-                await Task.Delay((int)_randomTime*1000);  
+                randomTimeTear = _randomTime;
+                await Task.Delay((int)(randomTimeTear*1000));  
+                if (!EditorApplication.isPlaying) { 
+                    break;
+                }
                 Instantiate(Resources.Load<GameObject>("TearDrop/TearDrop"),randomPlace,Quaternion.identity,holder);
+                
+            }
+        }
+        private async void CreatingRings()
+        {
+            float randomXRings;
+            float randomYRings;
+            float randomTimeRings;
+            while (true)
+            {
+                if (_ringCounter == CoreGameSignals.Instance.OnGetRingCount())
+                { 
+                    randomXRings = Random.Range(-8f, 8f);
+                    randomYRings = Random.Range(-4f, 0f);
+                    var randomPlace = new Vector3(randomXRings, randomYRings, 0);
+                    randomTimeRings = Random.Range(8, 15);
+                    Debug.Log(randomTimeRings);
+                    await Task.Delay((int)(randomTimeRings*1000));
+                    if (!EditorApplication.isPlaying) { 
+                        break;
+                    }
+                    if (_ringCounter<5)
+                    {
+                        if (_ringCounter == CoreGameSignals.Instance.OnGetRingCount())
+                        {
+                            _ringCounter++;
+                            Instantiate(Resources.Load<GameObject>($"Rings/Ring{_ringCounter}"), randomPlace, Quaternion.identity, holder);
+                        }
+                    }
+                    else
+                    {
+                        _ringCounter = 0;
+                    }
+
+                    if (_ringCounter==5)
+                    {
+                        _ringCounter = 0;
+                    }
+                    
+                
+                }
+                else
+                {
+                    await Task.Delay(4000);
+                }
+                Debug.Log("Level Manager: " + _ringCounter);
+                Debug.Log("Ring Counter: " + CoreGameSignals.Instance.OnGetRingCount());
                 if (!EditorApplication.isPlaying) { 
                     break;
                 }
@@ -72,12 +117,12 @@ namespace Managers
                 randomXtoy = Random.Range(-7f, 7f);
                 randomYtoy = Random.Range(-4f, 0f);
                 var randomPlace = new Vector3(randomXtoy, randomYtoy, 0);
-                _placeBasicToy = randomPlace;
-                await Task.Delay(7000);  
-                Instantiate(Resources.Load<GameObject>("Toys/BasicToy/BasicToy"),randomPlace,Quaternion.identity,holder);
+                await Task.Delay(7000); 
                 if (!EditorApplication.isPlaying) { 
                     break;
                 }
+                Instantiate(Resources.Load<GameObject>("Toys/BasicToy/BasicToy"),randomPlace,Quaternion.Euler(0,0,-45),holder);
+                
             }
         }
 
@@ -90,12 +135,12 @@ namespace Managers
                 randomYCar = Random.Range(-4f, 0f);
                 randomTimeCar = Random.Range(6f, 15f);
                 var randomPlace = new Vector3(-10f, randomYCar, 0f);
-                _placeCar = randomPlace;
                 await Task.Delay((int)randomTimeCar*1000);  
-                Instantiate(Resources.Load<GameObject>("Vecihles/Car"),randomPlace,Quaternion.identity,holder);
                 if (!EditorApplication.isPlaying) { 
                     break;
                 }
+                Instantiate(Resources.Load<GameObject>("Vecihles/Car"),randomPlace,Quaternion.identity,holder);
+                
             }
         }
         
@@ -108,12 +153,12 @@ namespace Managers
                 randomYTrain = Random.Range(-4f, 0f);
                 randomTimeTrain = Random.Range(6f, 15f);
                 var randomPlace = new Vector3(-10, randomYTrain, 0);
-                _placeTrain = randomPlace;
-                await Task.Delay((int)randomTimeTrain*1000);  
-                Instantiate(Resources.Load<GameObject>("Vecihles/Train"),randomPlace,Quaternion.identity,holder);
+                await Task.Delay((int)randomTimeTrain*1000); 
                 if (!EditorApplication.isPlaying) { 
                     break;
                 }
+                Instantiate(Resources.Load<GameObject>("Vecihles/Train"),randomPlace,Quaternion.identity,holder);
+                
             }
         }
 
@@ -123,19 +168,19 @@ namespace Managers
             float randomMinTime;
             if (CoreGameSignals.Instance.OnGetLaughMeterLevels() == LaughMeterLevels.Medium)
             {
-                randomMaxTime = 4f;
-                randomMinTime = 1f;
+                randomMaxTime = 1.5f;
+                randomMinTime = 0.6f;
                 _randomTime = Random.Range(randomMinTime, randomMaxTime);
             }
             else if (CoreGameSignals.Instance.OnGetLaughMeterLevels() == LaughMeterLevels.Hard)
             {
-                randomMaxTime = 3f;
-                randomMinTime = 0.5f;
+                randomMaxTime = 0.9f;
+                randomMinTime = 0.2f;
                 _randomTime = Random.Range(randomMinTime, randomMaxTime);  
             }
             else if (CoreGameSignals.Instance.OnGetLaughMeterLevels() == LaughMeterLevels.Impossible)
             {
-                randomMaxTime = 1.5f;
+                randomMaxTime = 0.7f;
                 randomMinTime = 0f;
                 _randomTime = Random.Range(randomMinTime, randomMaxTime);  
             }
