@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 8085303530091771984}
   - component: {fileID: 4668245495896263749}
   - component: {fileID: 5635955558665685725}
-  - component: {fileID: 8020699840153384021}
+  - component: {fileID: 7617059514308876577}
   m_Layer: 0
   m_Name: DamageArea
   m_TagString: Untagged
@@ -183,14 +183,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4eb460b491ac3f146a3e757d87b6656e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!58 &8020699840153384021
-CircleCollider2D:
+--- !u!70 &7617059514308876577
+CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6533180645258311143}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -212,12 +212,12 @@ CircleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 0.49999997
+  m_Size: {x: 1.9, y: 1.15}
+  m_Direction: 1
 --- !u!1 &8270679589473526973
 GameObject:
   m_ObjectHideFlags: 0
