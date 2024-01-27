@@ -1,6 +1,6 @@
 using System;
 using Extensions;
-using UnityEngine;
+using Enums;
 using UnityEngine.Events;
 
 namespace Signals
@@ -8,5 +8,9 @@ namespace Signals
     public class CoreGameSignals : MonoSingleton<CoreGameSignals>
     {
         public Func<float> OnGetLaughMeter = () => 0;
+        public UnityAction<GainOrLose, short> OnChangeHealth = delegate {  };
+        public UnityAction<GameStates> OnChangingGameStates = delegate {  };
+        public Func<LaughMeterLevels> OnGetLaughMeterLevels = () => LaughMeterLevels.Easy;
+        public UnityAction<float> OnIncreaseLaughMeter = delegate {  };
     }
 }
