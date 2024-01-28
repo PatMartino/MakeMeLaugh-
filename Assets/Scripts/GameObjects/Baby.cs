@@ -105,7 +105,7 @@ namespace GameObjects
         {
             _animator.SetInteger(AttackNumber, attackNumber);
 
-            attackFb.PlayFeedbacks();
+            //attackFb.PlayFeedbacks();
             
             StartCoroutine(Intimidate());
         }

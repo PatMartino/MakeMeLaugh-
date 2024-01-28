@@ -1,6 +1,7 @@
 using Extensions;
 using Enums;
 using Managers;
+using MoreMountains.Feedbacks;
 using Signals;
 using UnityEngine;
 
@@ -18,6 +19,8 @@ namespace Controllers
         [SerializeField] private GameObject EndPanel;
         
         [SerializeField] private LevelManager LevelManager;
+
+        [SerializeField] private MMFeedbacks getHitFb;
 
         #region OnEnable
 
@@ -43,6 +46,7 @@ namespace Controllers
                 case GainOrLose.Lose:
                     _health -= value;
                     CoreGameSignals.Instance.OnHitPlayer?.Invoke();
+                    getHitFb.PlayFeedbacks();
                     IsDead();
                     
                     break;
