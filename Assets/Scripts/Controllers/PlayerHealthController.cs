@@ -1,5 +1,6 @@
 using Extensions;
 using Enums;
+using Managers;
 using Signals;
 using UnityEngine;
 
@@ -13,6 +14,10 @@ namespace Controllers
         private readonly short _maxHealth = 3;
 
         #endregion
+
+        [SerializeField] private GameObject EndPanel;
+        
+        [SerializeField] private LevelManager LevelManager;
 
         #region OnEnable
 
@@ -28,6 +33,7 @@ namespace Controllers
         private void SubscribeEvents()
         {
             CoreGameSignals.Instance.OnChangeHealth += OnChangeHealth;
+            CoreGameSignals.Instance.OnGetHealth += OnGetHealth;
         }
 
         private void OnChangeHealth(GainOrLose states, short value)
@@ -36,13 +42,16 @@ namespace Controllers
             {
                 case GainOrLose.Lose:
                     _health -= value;
+                    CoreGameSignals.Instance.OnHitPlayer?.Invoke();
                     IsDead();
+                    
                     break;
                 case GainOrLose.Gain:
                     _health += value;
                     IsReachedMaxHealth();
                     break;
             }
+            CoreGameSignals.Instance.OnChangeHealthIcon?.Invoke();
             Debug.LogWarning(_health);
             //CoreGameSignals.Instance.OnUpdatingHealthBar?.Invoke(MaxHealth,health);
         }
@@ -61,7 +70,15 @@ namespace Controllers
             {
                 Debug.Log("Dead");
                 CoreGameSignals.Instance.OnChangingGameStates.Invoke(GameStates.OnDead);
+                EndPanel.SetActive(true);
+                
+                //LevelManager.DestroySelf();
             }
+        }
+
+        private short OnGetHealth()
+        {
+            return _health;
         }
 
         #endregion

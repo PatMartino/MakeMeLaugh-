@@ -1,3 +1,4 @@
+using System;
 using Signals;
 using UnityEngine;
 using Enums;
@@ -24,6 +25,11 @@ namespace LaughMeter
         private void OnEnable()
         {
             SubscribeEvents();
+        }
+
+        private void Start()
+        {
+            _laughMeter = 70;
         }
 
         private void Update()
@@ -68,21 +74,35 @@ namespace LaughMeter
 
         private void ChangeLevel()
         {
-            level = _laughMeter switch
-            {
-                >= 75 => LaughMeterLevels.Easy,
-                >= 50 and < 75 => LaughMeterLevels.Medium,
-                >= 25 and < 50 => LaughMeterLevels.Hard,
-                _ => LaughMeterLevels.Impossible
-            };
+            if (_laughMeter >= 80)
+                level = LaughMeterLevels.Beginner;
+            else if (_laughMeter is >= 60 and < 80)
+                level = LaughMeterLevels.Easy;
+            else if (_laughMeter is >= 40 and < 60)
+                level = LaughMeterLevels.Medium;
+            else if (_laughMeter is >= 20 and < 40)
+                level = LaughMeterLevels.Hard;
+            else
+                level = LaughMeterLevels.Impossible;
+
             if (level == LaughMeterLevels.Easy)
             {
                 reduction = 4.3f;
+            }
+            else if (level == LaughMeterLevels.Medium)
+            {
+                reduction = 4.1f;
             }
             else
             {
                 reduction = 3.9f;
             }
+
+            if (CoreGameSignals.Instance.OnGetHit() == false)
+            {
+                CoreGameSignals.Instance.OnChangeFace?.Invoke();
+            }
+            
         }
 
         private LaughMeterLevels OnGetLaughMeterLevel()

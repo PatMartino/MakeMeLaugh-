@@ -14,5 +14,12 @@ namespace Signals
         public UnityAction<float> OnIncreaseLaughMeter = delegate {  };
         public UnityAction OnChangeSprite = delegate {  };
         public Func<int> OnGetRingCount = () => 0;
+        public UnityAction OnChangeFace = delegate {  };
+        public UnityAction OnChangeHealthIcon = delegate {  };
+        public Func<short> OnGetHealth = () => 0;
+        public UnityAction OnHitPlayer = delegate {  };
+        public Func<bool> OnGetHit = () => false;
+        public Func<int> OnGetScore = () => 0;
+        public UnityAction<int> OnIncreaseScore = delegate {  };
     }
 }

@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using System.Threading;
 using System.Threading.Tasks;
 using Enums;
 using Signals;
@@ -20,45 +22,67 @@ namespace Managers
 
         private int _ringCounter=0;
         private float _randomTime = 5;
+        private int _score=0;
 
         #endregion
 
         #region OnEnable
 
+        private void OnEnable()
+        {
+            CoreGameSignals.Instance.OnGetScore += OnGetScore;
+            CoreGameSignals.Instance.OnIncreaseScore += OnIncreaseScore;
+        }
+
         private void Start()
         {
-            CreatingTearDrops();
-            CreatingBasicToys();
-            CreatingCar();
-            CreatingTrain();
-            CreatingRings();
+            StartCoroutine(CreatingTearDrops());
+            StartCoroutine(CreatingBasicToys());
+            StartCoroutine(CreatingCar());
+            StartCoroutine(CreatingTrain());
+            StartCoroutine(CreatingRings());
+            StartCoroutine(CreatingHealth());
         }
 
         #endregion
 
         #region Private Functions
 
-        private async void CreatingTearDrops()
+        private IEnumerator CreatingTearDrops()
         {
             float randomXTear;
             float randomYTear;
             float randomTimeTear;
+            
             while (true)
             {
                 randomXTear = Random.Range(-8f, 8f);
-                randomYTear = Random.Range(-4f, 0f);
-                var randomPlace = new Vector3(randomXTear, randomYTear, 0);
-                WaitTearDropByLevelCount();
-                randomTimeTear = _randomTime;
-                await Task.Delay((int)(randomTimeTear*1000));  
-                if (!EditorApplication.isPlaying) { 
-                    break;
-                }
-                Instantiate(Resources.Load<GameObject>("TearDrop/TearDrop"),randomPlace,Quaternion.identity,holder);
+                    randomYTear = Random.Range(-4f, 0f);
+                    var randomPlace = new Vector3(randomXTear, randomYTear, 0);
+                    WaitTearDropByLevelCount();
+                    randomTimeTear = _randomTime;
+                    if (CoreGameSignals.Instance.OnGetHealth() == 0)
+                    {
+                        break;
+                    }
+                    yield return new WaitForSeconds(randomTimeTear);
+                    if (CoreGameSignals.Instance.OnGetHealth() == 0)
+                    {
+                        break;
+                    }
+                    //if (!EditorApplication.isPlaying) { 
+                    //   break;
+                    //}
+
+                    if (Time.timeScale != 0)
+                    {
+                        Instantiate(Resources.Load<GameObject>("TearDrop/TearDrop"),randomPlace,Quaternion.identity,holder); 
+                    }
+                    
                 
             }
         }
-        private async void CreatingRings()
+        private IEnumerator CreatingRings()
         {
             float randomXRings;
             float randomYRings;
@@ -72,8 +96,20 @@ namespace Managers
                     var randomPlace = new Vector3(randomXRings, randomYRings, 0);
                     randomTimeRings = Random.Range(8, 15);
                     Debug.Log(randomTimeRings);
-                    await Task.Delay((int)(randomTimeRings*1000));
-                    if (!EditorApplication.isPlaying) { 
+                    if (CoreGameSignals.Instance.OnGetHealth() == 0)
+                    {
+                        break;
+                    }
+                    yield return new WaitForSeconds(randomTimeRings);
+                    if (CoreGameSignals.Instance.OnGetHealth() == 0)
+                    {
+                        break;
+                    }
+                    //if (!EditorApplication.isPlaying) { 
+                    //   break;
+                    //}
+                    if (CoreGameSignals.Instance.OnGetHealth() == 0)
+                    {
                         break;
                     }
                     if (_ringCounter<5)
@@ -98,35 +134,77 @@ namespace Managers
                 }
                 else
                 {
-                    await Task.Delay(4000);
+                    yield return new WaitForSeconds(4);
                 }
                 Debug.Log("Level Manager: " + _ringCounter);
                 Debug.Log("Ring Counter: " + CoreGameSignals.Instance.OnGetRingCount());
-                if (!EditorApplication.isPlaying) { 
+                //if (!EditorApplication.isPlaying) { 
+                //   break;
+                //}
+                if (CoreGameSignals.Instance.OnGetHealth() == 0)
+                {
                     break;
                 }
             }
         }
 
-        private async void CreatingBasicToys()
+        private IEnumerator CreatingBasicToys()
         {
             float randomXtoy;
             float randomYtoy;
+            float randomTimeToy;
             while (true)
             {
                 randomXtoy = Random.Range(-7f, 7f);
                 randomYtoy = Random.Range(-4f, 0f);
+                randomTimeToy = Random.Range(4f, 9f);
                 var randomPlace = new Vector3(randomXtoy, randomYtoy, 0);
-                await Task.Delay(7000); 
-                if (!EditorApplication.isPlaying) { 
+                if (CoreGameSignals.Instance.OnGetHealth() == 0)
+                {
+                    break;
+                }
+                yield return new WaitForSeconds(randomTimeToy); 
+                //if (!EditorApplication.isPlaying) { 
+                //   break;
+                //}
+                if (CoreGameSignals.Instance.OnGetHealth() == 0)
+                {
                     break;
                 }
                 Instantiate(Resources.Load<GameObject>("Toys/BasicToy/BasicToy"),randomPlace,Quaternion.Euler(0,0,-45),holder);
                 
             }
         }
+        
+        private IEnumerator CreatingHealth()
+        {
+            float randomXtoy;
+            float randomYtoy;
+            float randomTimeToy;
+            while (true)
+            {
+                randomXtoy = Random.Range(-7f, 7f);
+                randomYtoy = Random.Range(-4f, 0f);
+                randomTimeToy = Random.Range(25f, 40f);
+                var randomPlace = new Vector3(randomXtoy, randomYtoy, 0);
+                if (CoreGameSignals.Instance.OnGetHealth() == 0)
+                {
+                    break;
+                }
+                yield return new WaitForSeconds(randomTimeToy);
+                //if (!EditorApplication.isPlaying) { 
+                //   break;
+                //}
+                if (CoreGameSignals.Instance.OnGetHealth() == 0)
+                {
+                    break;
+                }
+                Instantiate(Resources.Load<GameObject>("Health/Health"),randomPlace,Quaternion.identity,holder);
+                
+            }
+        }
 
-        private async void CreatingCar()
+        private IEnumerator CreatingCar()
         {
             float randomYCar;
             float randomTimeCar;
@@ -135,8 +213,16 @@ namespace Managers
                 randomYCar = Random.Range(-4f, 0f);
                 randomTimeCar = Random.Range(6f, 15f);
                 var randomPlace = new Vector3(-10f, randomYCar, 0f);
-                await Task.Delay((int)randomTimeCar*1000);  
-                if (!EditorApplication.isPlaying) { 
+                if (CoreGameSignals.Instance.OnGetHealth() == 0)
+                {
+                    break;
+                }
+                yield return new WaitForSeconds(randomTimeCar);  
+                //if (!EditorApplication.isPlaying) { 
+                //   break;
+                //}
+                if (CoreGameSignals.Instance.OnGetHealth() == 0)
+                {
                     break;
                 }
                 Instantiate(Resources.Load<GameObject>("Vecihles/Car"),randomPlace,Quaternion.identity,holder);
@@ -144,7 +230,7 @@ namespace Managers
             }
         }
         
-        private async void CreatingTrain()
+        private IEnumerator CreatingTrain()
         {
             float randomYTrain;
             float randomTimeTrain;
@@ -153,8 +239,16 @@ namespace Managers
                 randomYTrain = Random.Range(-4f, 0f);
                 randomTimeTrain = Random.Range(6f, 15f);
                 var randomPlace = new Vector3(-10, randomYTrain, 0);
-                await Task.Delay((int)randomTimeTrain*1000); 
-                if (!EditorApplication.isPlaying) { 
+                if (CoreGameSignals.Instance.OnGetHealth() == 0)
+                {
+                    break;
+                }
+                yield return new WaitForSeconds(randomTimeTrain); 
+                //if (!EditorApplication.isPlaying) { 
+                //   break;
+                //}
+                if (CoreGameSignals.Instance.OnGetHealth() == 0)
+                {
                     break;
                 }
                 Instantiate(Resources.Load<GameObject>("Vecihles/Train"),randomPlace,Quaternion.identity,holder);
@@ -180,14 +274,35 @@ namespace Managers
             }
             else if (CoreGameSignals.Instance.OnGetLaughMeterLevels() == LaughMeterLevels.Impossible)
             {
-                randomMaxTime = 0.7f;
-                randomMinTime = 0f;
+                randomMaxTime = 0.8f;
+                randomMinTime = 0.1f;
+                _randomTime = Random.Range(randomMinTime, randomMaxTime);  
+            }
+            else if (CoreGameSignals.Instance.OnGetLaughMeterLevels() == LaughMeterLevels.Easy)
+            {
+                randomMaxTime = 2f;
+                randomMinTime = 0.9f;
                 _randomTime = Random.Range(randomMinTime, randomMaxTime);  
             }
             else
             {
                 _randomTime = 10;
             }
+        }
+
+        private int OnGetScore()
+        {
+            return _score;
+        }
+
+        private void OnIncreaseScore(int amount)
+        {
+            _score += amount;
+        }
+
+        public void DestroySelf()
+        {
+            gameObject.SetActive(false);
         }
 
         #endregion

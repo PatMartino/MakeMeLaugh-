@@ -3,6 +3,8 @@
 namespace Enums
 {
     public enum UIEventSubscriptionTypes{
-        PlayButton
+        PlayButton,
+        PlayAgain,
+        PlayAgain2
 } 
 }

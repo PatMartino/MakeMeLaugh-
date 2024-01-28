@@ -50,6 +50,7 @@ namespace GameObjects
         {
             await Task.Delay(3000);
             _spriteRenderer.sprite = noRing;
+            CoreGameSignals.Instance.OnIncreaseScore?.Invoke(250);
         }
 
         private int OnGetRingCount()
@@ -93,6 +94,7 @@ namespace GameObjects
                                 break;
                                 
                         }
+                        CoreGameSignals.Instance.OnIncreaseScore?.Invoke(15);
                         Destroy(col.transform.GetChild(0).GetChild(0).GetChild(0).gameObject);
                         CoreGameSignals.Instance.OnIncreaseLaughMeter?.Invoke(10);
                         CoreGameSignals.Instance.OnChangeSprite?.Invoke();

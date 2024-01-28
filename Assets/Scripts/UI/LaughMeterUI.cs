@@ -1,3 +1,4 @@
+using System;
 using Signals;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,6 +8,11 @@ namespace UI
     public class LaughMeterUI : MonoBehaviour
     {
         #region Update
+
+        private void Start()
+        {
+            GetComponent<Image>().fillAmount = 0.70f;
+        }
 
         void Update()
         {
