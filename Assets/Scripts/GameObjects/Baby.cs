@@ -27,6 +27,8 @@ namespace GameObjects
         [SerializeField] private Sprite face7;
         [SerializeField] private Sprite face8;
 
+        [SerializeField] private AudioSource drinkMilkSound;
+
         [Header("Feedbacks")]
         [SerializeField] private MMFeedbacks attackFb;
 
@@ -124,6 +126,7 @@ namespace GameObjects
                 {
                     if (col.transform.GetChild(0).GetChild(0).GetChild(0).CompareTag("BasicToy"))
                     {
+                        drinkMilkSound.Play();
                         Destroy(col.transform.GetChild(0).GetChild(0).GetChild(0).gameObject);
                         CoreGameSignals.Instance.OnIncreaseScore?.Invoke(50);
                         CoreGameSignals.Instance.OnIncreaseLaughMeter?.Invoke(18);

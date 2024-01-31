@@ -15,6 +15,8 @@ namespace GameObjects
         [SerializeField] private Sprite threeRing;
         [SerializeField] private Sprite fourRing;
         [SerializeField] private Sprite fiveRing;
+        [SerializeField] private AudioSource toyPutSound;
+        [SerializeField] private AudioSource resetStickSound;
 
         #endregion
         
@@ -48,6 +50,7 @@ namespace GameObjects
 
         private async void ResetStick()
         {
+            resetStickSound.Play();
             await Task.Delay(3000);
             _spriteRenderer.sprite = noRing;
             CoreGameSignals.Instance.OnIncreaseScore?.Invoke(250);
@@ -68,6 +71,7 @@ namespace GameObjects
                 {
                     if (col.transform.GetChild(0).GetChild(0).GetChild(0).CompareTag("Ring"))
                     {
+                        toyPutSound.Play();
                         switch (_ringCount)
                         {
                             case 0:

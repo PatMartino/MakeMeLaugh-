@@ -22,6 +22,9 @@ namespace Controllers
 
         [SerializeField] private MMFeedbacks getHitFb;
 
+        [SerializeField] private AudioSource healthSound;
+        [SerializeField] private AudioSource obaaaSound;
+
         #region OnEnable
 
         private void OnEnable()
@@ -44,6 +47,7 @@ namespace Controllers
             switch (states)
             {
                 case GainOrLose.Lose:
+                    obaaaSound.Play();
                     _health -= value;
                     CoreGameSignals.Instance.OnHitPlayer?.Invoke();
                     getHitFb.PlayFeedbacks();
@@ -51,6 +55,7 @@ namespace Controllers
                     
                     break;
                 case GainOrLose.Gain:
+                    healthSound.Play();
                     _health += value;
                     IsReachedMaxHealth();
                     break;
